@@ -2,6 +2,8 @@ package org.zdd.bookmall.web.controller;
 
 
 import com.github.pagehelper.PageInfo;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.zdd.bookmall.exception.BSException;
 import org.zdd.bookmall.model.dao.BookDescMapper;
 import org.zdd.bookmall.model.entity.BookDesc;
@@ -19,6 +21,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/book")
+@CrossOrigin
 public class BookInfoController {
 
 
@@ -51,6 +54,31 @@ public class BookInfoController {
         model.addAttribute("bookDesc", bookDesc);
         model.addAttribute("recommendBookList", recommendBookList);
         return "book_info";
+    }
+
+    /**
+     * 查询某一本书籍详情
+     *
+     * @param bookId
+     * @param model
+     * @return
+     */
+    @RequestMapping("/getInfo/{bookId}")
+    @ResponseBody
+    public BookInfo getInfo(@PathVariable("bookId") Integer bookId, Model model) throws BSException {
+        //查询书籍
+        BookInfo bookInfo = bookInfoService.findById(bookId);
+        //查询书籍推荐列表
+        List<BookInfo> recommendBookList = bookInfoService.findBookListByCateId(bookInfo.getBookCategoryId(), 1, 5);
+        //查询书籍详情
+        BookDesc bookDesc = bookDescMapper.selectByPrimaryKey(bookId);
+        //增加访问量
+        bookInfoService.addLookMount(bookInfo);
+        Collections.shuffle(recommendBookList);
+        model.addAttribute("bookInfo", bookInfo);
+        model.addAttribute("bookDesc", bookDesc);
+        model.addAttribute("recommendBookList", recommendBookList);
+        return bookInfo;
     }
 
 

@@ -1,6 +1,7 @@
 package org.zdd.bookmall.web.controller;
 
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.zdd.bookmall.crawl.URLEntity;
 import org.zdd.bookmall.crawl.WriteToMysql;
 import org.zdd.bookmall.model.entity.BookCategory;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.Random;
 
 @Controller
+@CrossOrigin
 public class IndexController {
 
     @Autowired

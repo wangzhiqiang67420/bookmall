@@ -1,5 +1,6 @@
 package org.zdd.bookmall.web.controller;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.zdd.bookmall.common.utils.BSResultUtil;
 import org.zdd.bookmall.model.entity.Store;
 import org.zdd.bookmall.model.service.IMailService;
@@ -26,9 +27,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
+@CrossOrigin
 public class UserController {
 
 
@@ -52,11 +56,15 @@ public class UserController {
     private final String USERNAME_CANNOT_NULL = "用户名不能为空";
 
     @RequestMapping("/login")
-    public String login(@RequestParam(value = "username", required = false) String username,
+    @ResponseBody
+    public Map login(@RequestParam(value = "username", required = false) String username,
                         @RequestParam(value = "password", required = false) String password,
                         HttpServletRequest request, Model model) {
+        Map<String,String> map = new HashMap<>();
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
-            return "login";
+            map.put("status","0");
+            map.put("msg","用户名或密码不能为空");
+            return map;
         }
         //未认证的用户
         Subject userSubject = SecurityUtils.getSubject();
@@ -65,7 +73,6 @@ public class UserController {
 
             token.setRememberMe(false);//禁止记住我功能
             try {
-
                 //登录成功
                 userSubject.login(token);
                 User loginUser = (User) userSubject.getPrincipal();
@@ -73,9 +80,8 @@ public class UserController {
                 Store store = storeService.findStoreByUserId(loginUser.getUserId());
                 request.getSession().setAttribute("loginStore", store);
 
-
                 SavedRequest savedRequest = WebUtils.getSavedRequest(request);
-                String url = "/";
+                String url = "bookIndex";
                 if (savedRequest != null) {
                     url = savedRequest.getRequestUrl();
                     if(url.contains(request.getContextPath())){
@@ -83,26 +89,27 @@ public class UserController {
                     }
                 }
                 if(StringUtils.isEmpty(url) || url.equals("/favicon.ico")){
-                    url = "/";
+                    url = "bookIndex";
                 }
-
-                return "redirect:" + url;
-
+                map.put("status","1");
+                map.put("msg",url);
+                return map;
             } catch (UnknownAccountException | IncorrectCredentialsException uae) {
-                model.addAttribute("loginMsg", USERNAME_PASSWORD_NOT_MATCH);
-                return "login";
+                map.put("status","0");
+                map.put("msg",USERNAME_PASSWORD_NOT_MATCH);
             } catch (LockedAccountException lae) {
-                model.addAttribute("loginMsg", "账户已被冻结！");
-                return "login";
+                map.put("status","0");
+                map.put("msg","账户已被冻结");
             } catch (AuthenticationException ae) {
-                model.addAttribute("loginMsg", "登录失败！");
-                return "login";
+                map.put("status","0");
+                map.put("msg","登录失败！");
             }
-
         } else {
             //用户已经登录
-            return "redirect:/index";
+            map.put("status","1");
+            map.put("msg","bookIndex");
         }
+        return map;
 
     }
 
