@@ -2,6 +2,7 @@ package org.zdd.bookmall.web.controller;
 
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.zdd.bookmall.crawl.URLEntity;
 import org.zdd.bookmall.crawl.WriteToMysql;
 import org.zdd.bookmall.model.entity.BookCategory;
@@ -60,6 +61,22 @@ public class IndexController {
         return "index";
     }
 
+    /**
+     * 第一次访问首页首页
+     *
+     * @return
+     */
+    @RequestMapping("/newBooks")
+    @ResponseBody
+    public List<BookInfo> newBooks() {
+        if(categoryList == null){
+            categoryList = cateService.getCategoryList();
+        }
+        //获得书籍列表
+        List<BookInfo> bookInfos = bookInfoService.findBookListByCateId(categoryList.get(new Random().nextInt(6)).getCateId(), new Random().nextInt(3), 18);
+        return bookInfos;
+    }
+
 
     /**
      * 点击首页导航栏分类后来到这个handler
@@ -69,13 +86,10 @@ public class IndexController {
      * @return
      */
     @RequestMapping("/index/category/{cateId}")
-    public String bookListByCategoryId(@PathVariable("cateId") int cateId, Model model) {
-
-
+    @ResponseBody
+    public List<BookInfo> bookListByCategoryId(@PathVariable("cateId") int cateId, Model model) {
         List<BookInfo> bookInfos = bookInfoService.findBookListByCateId(cateId, new Random().nextInt(3), 18);
-        model.addAttribute("bookInfos", bookInfos);
-        model.addAttribute("cateId", cateId);
-        return "index";
+        return bookInfos;
     }
 
     /**

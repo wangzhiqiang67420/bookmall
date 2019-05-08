@@ -228,7 +228,7 @@
                 <div class="panel-body">
                     <ul>
                         <li>
-                            <a href="index" target="_blank">前台首页</a>
+                            <a onclick="toBookIndex()" target="_blank">前台首页</a>
                         </li>
                         <li>
                             <a href="admin/center" target="centerFrame">后台首页</a>
@@ -244,4 +244,11 @@
 
 </div>
 </body>
+<script>
+    function toBookIndex(){
+        var newPage = window.open();
+        // window.open('about:blank');
+        newPage.location.href = 'http://localhost:8080/#/bookIndex';
+    }
+</script>
 </html>

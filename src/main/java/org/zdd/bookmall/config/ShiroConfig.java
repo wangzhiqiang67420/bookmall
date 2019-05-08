@@ -60,6 +60,9 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/user/**", "anon");//用户登录注册不需要权限
 
         filterChainDefinitionMap.put("/index/**",   "anon");//首页放行
+        filterChainDefinitionMap.put("/newBooks/**",   "anon");//新书上架
+        filterChainDefinitionMap.put("/admin/adminLogin/**",   "anon");//新书上架
+
         filterChainDefinitionMap.put("/", "anon");
 
         //配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了

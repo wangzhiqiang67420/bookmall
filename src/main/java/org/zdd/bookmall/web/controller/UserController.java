@@ -1,7 +1,10 @@
 package org.zdd.bookmall.web.controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.zdd.bookmall.common.utils.BSResultUtil;
+import org.zdd.bookmall.model.dao.custom.CustomMapper;
+import org.zdd.bookmall.model.entity.Role;
 import org.zdd.bookmall.model.entity.Store;
 import org.zdd.bookmall.model.service.IMailService;
 import org.zdd.bookmall.model.service.IStoreService;
@@ -28,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -45,6 +49,10 @@ public class UserController {
     @Autowired
     private IStoreService storeService;
 
+    @Autowired
+    private CustomMapper customMapper;
+
+
     @Value("${mail.fromMail.addr}")
     private String from;
 
@@ -55,12 +63,12 @@ public class UserController {
 
     private final String USERNAME_CANNOT_NULL = "用户名不能为空";
 
-    @RequestMapping("/login")
+    @RequestMapping("/loginnew")
     @ResponseBody
-    public Map login(@RequestParam(value = "username", required = false) String username,
+    public Map loginnew(@RequestParam(value = "username", required = false) String username,
                         @RequestParam(value = "password", required = false) String password,
                         HttpServletRequest request, Model model) {
-        Map<String,String> map = new HashMap<>();
+        Map<String,Object> map = new HashMap<>();
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
             map.put("status","0");
             map.put("msg","用户名或密码不能为空");
@@ -93,6 +101,13 @@ public class UserController {
                 }
                 map.put("status","1");
                 map.put("msg",url);
+                map.put("user",loginUser);
+
+                //判断是否仅仅是普通用户
+                List<Role> roles = customMapper.findRolesByUserId(loginUser.getUserId());
+                if(roles.size() == 1 && roles.get(0).getCode().equals("customer")){
+                    loginUser.setIdentity("ordinary");
+                }
                 return map;
             } catch (UnknownAccountException | IncorrectCredentialsException uae) {
                 map.put("status","0");
@@ -110,6 +125,62 @@ public class UserController {
             map.put("msg","bookIndex");
         }
         return map;
+
+    }
+
+
+    @RequestMapping("/login")
+    public String login(@RequestParam(value = "username", required = false) String username,
+                        @RequestParam(value = "password", required = false) String password,
+                        HttpServletRequest request, Model model) {
+        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
+            return "login";
+        }
+        //未认证的用户
+        Subject userSubject = SecurityUtils.getSubject();
+        if (!userSubject.isAuthenticated()) {
+            UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+
+            token.setRememberMe(false);//禁止记住我功能
+            try {
+
+                //登录成功
+                userSubject.login(token);
+                User loginUser = (User) userSubject.getPrincipal();
+                request.getSession().setAttribute("loginUser", loginUser);
+                Store store = storeService.findStoreByUserId(loginUser.getUserId());
+                request.getSession().setAttribute("loginStore", store);
+
+
+                SavedRequest savedRequest = WebUtils.getSavedRequest(request);
+                String url = "/";
+                if (savedRequest != null) {
+                    url = savedRequest.getRequestUrl();
+                    if(url.contains(request.getContextPath())){
+                        url = url.replace(request.getContextPath(),"");
+                    }
+                }
+                if(StringUtils.isEmpty(url) || url.equals("/favicon.ico")){
+                    url = "/";
+                }
+
+                return "redirect:" + url;
+
+            } catch (UnknownAccountException | IncorrectCredentialsException uae) {
+                model.addAttribute("loginMsg", USERNAME_PASSWORD_NOT_MATCH);
+                return "login";
+            } catch (LockedAccountException lae) {
+                model.addAttribute("loginMsg", "账户已被冻结！");
+                return "login";
+            } catch (AuthenticationException ae) {
+                model.addAttribute("loginMsg", "登录失败！");
+                return "login";
+            }
+
+        } else {
+            //用户已经登录
+            return "redirect:/index";
+        }
 
     }
 
@@ -156,6 +227,14 @@ public class UserController {
         return "redirect:/page/login";
     }
 
+    @RequestMapping("/logoutnew")
+    @CacheEvict(cacheNames="authorizationCache",allEntries = true)
+    @ResponseBody
+    public String logoutnew() {
+        SecurityUtils.getSubject().logout();
+        return "logoutnew";
+    }
+
     /**
      * 注册 检验用户名是否存在
      *
@@ -179,33 +258,34 @@ public class UserController {
      * @return
      */
     @RequestMapping("/register")
-    public String register(User user, Model model) {
-
+    @ResponseBody
+    public Map register(@RequestBody User user) {
+        Map map = new HashMap();
         BSResult isExist = checkUserExist(user.getUsername());
-
         //尽管前台页面已经用ajax判断用户名是否存在，
         // 为了防止用户不是点击前台按钮提交表单造成的错误，后台也需要判断
         if ((Boolean) isExist.getData()) {
-
+            user.setNickname(user.getUsername());
             BSResult bsResult = userService.saveUser(user);
-            //获得未激活的用户
             User userNotActive = (User) bsResult.getData();
-            try {
-                mailService.sendHtmlMail(user.getEmail(), "<dd书城>---用户激活---",
-                        "<html><body><a href='http://"+ip+"/user/active?activeCode=" + userNotActive.getCode() + "'>亲爱的" + user.getUsername() +
-                                "，请您点击此链接前往激活</a></body></html>");
-            } catch (Exception e) {
-                e.printStackTrace();
-                model.addAttribute("registerError", "发送邮件异常！请检查您输入的邮箱地址是否正确。");
-                return "fail";
-            }
-            model.addAttribute("username", user.getUsername());
-            return "register_success";
+            BSResult bsResult2 = userService.activeUser(userNotActive.getCode());
+            //获得未激活的用户
+//            User userNotActive = (User) bsResult.getData();
+//            try {
+//                mailService.sendHtmlMail(user.getEmail(), "<dd书城>---用户激活---",
+//                        "<html><body><a href='http://"+ip+"/user/active?activeCode=" + userNotActive.getCode() + "'>亲爱的" + user.getUsername() +
+//                                "，请您点击此链接前往激活</a></body></html>");
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                model.addAttribute("registerError", "发送邮件异常！请检查您输入的邮箱地址是否正确。");
+//                return "fail";
+//            }
+            map.put("status", 1);
+            return map;
         } else {
-
-            //用户名已经存在，不能注册
-            model.addAttribute("registerError", isExist.getMessage());
-            return "register";
+            map.put("status", 0);
+            map.put("msg", "用户已存在");
+            return map;
         }
 
     }

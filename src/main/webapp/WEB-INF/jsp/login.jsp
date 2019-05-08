@@ -44,56 +44,17 @@
         })
     </script>
 </head>
-<body>
-<jsp:include page="loginRegister_above.jsp"/>
-<div style="height: 3px; background-color: #ff2832;"></div>
-<div id="middle">
-    <shiro:notAuthenticated>
-    <form action="<%=basePath%>user/login" method="post" id="loginForm">
-        <div id="register">密码登录</div>
-        <div id="username_div">
-            <span id="row1"></span>
-            <input type="text" name="username" id="username" placeholder="用户名/手机号/邮箱"/>
-        </div>
-        <p class="tips">
-        </p>
-        <div id="password_div">
-            <span id="row2"></span>
-            <input type="password" name="password" id="password" placeholder="密码"/>
-        </div>
-        <p class="tips">
-        </p>
+<body onload="toBookIndex()">
+<!--
 
-        <input type="submit" id="loginButton" value="登录"/>
-        <div class="margin">
-            <span>记住我</span>
-            <input type="checkbox" name="rememberMe" value="rememberMe"/>
-            <span class="error">${loginMsg}</span>
-        </div>
-        <div class="margin">
-            <span class="a"><a href="page/register" title="免费注册" target="_blank">免费注册</a></span>
-            <span class="a"><a href="" title="忘记密码?">找回密码</a></span>
-        </div>
-        <hr/>
-        <div class="margin">
-            <div>第三方平台快速登录</div>
-            <a href="" title="可用QQ帐号登录"><img src="img/QQ.png" alt="QQ"/></a>
-            <a href="" title="可用微信帐号登录"><img src="img/WeChat.png" alt="微信"/></a>
-            <a href="" title="可用微博帐号登录"><img src="img/micro-blog.png" alt="微博"/></a>
-        </div>
-    </form>
-    </shiro:notAuthenticated>
-    <shiro:user>
-        <div id="loginForm">
-            <div>
-                <div style="font-size: 20px">亲,您已经登录,<a href="user/info"><shiro:principal property="username"/></a></div>
-                <div style="font-size: 18px"><a href="user/logout" >注销</a></div>
-            </div>
-        </div>
-
-    </shiro:user>
-</div>
-
-<hr size="2" color="#E6E6E6"/>
+-->
 </body>
+<script>
+//    toBookIndex();
+    function toBookIndex(){
+        window.location.href = 'http://localhost:8080/#/login';
+        // window.open('about:blank');
+//        newPage.location.href = 'http://localhost:8080/#/login';
+    }
+</script>
 </html>
