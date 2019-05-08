@@ -62,6 +62,8 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/index/**",   "anon");//首页放行
         filterChainDefinitionMap.put("/newBooks/**",   "anon");//新书上架
         filterChainDefinitionMap.put("/admin/adminLogin/**",   "anon");//新书上架
+        filterChainDefinitionMap.put("/cart/addition",   "anon");//增加购物车
+        filterChainDefinitionMap.put("/cart/items",   "user");//新书上架
 
         filterChainDefinitionMap.put("/", "anon");
 

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/cart")
+@CrossOrigin
 public class CartController {
 
     @Autowired
@@ -35,6 +36,7 @@ public class CartController {
      * @return
      */
     @RequestMapping("/addition")
+    @ResponseBody
     public String addToCart(@RequestParam(value = "bookId",defaultValue = "0") int bookId,
                             @RequestParam(required = false,defaultValue = "0") int buyNum,
                             HttpServletRequest request) {
@@ -51,6 +53,7 @@ public class CartController {
         } else {
             //数据库里没有这本书,或库存不足
             request.setAttribute("bookInfo", null);
+            return "fail";
         }
         return "addcart";
     }

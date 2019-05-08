@@ -20,8 +20,14 @@
     <link rel="stylesheet" href="css/bs.css"/>
 
 </head>
-
-<body>
+<script>
+    function toBookIndex(){
+//        var newPage = window.open();
+        // window.open('about:blank');
+//        window.location.href = 'http://localhost:8080/#/bookIndex';
+    }
+</script>
+<body onload="toBookIndex()">
 <jsp:include page="header.jsp"/>
 <div class="container" style="margin-top:10px ;">
     <div class="row" style="height: 850px;">

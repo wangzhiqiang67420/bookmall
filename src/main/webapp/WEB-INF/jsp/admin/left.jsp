@@ -246,9 +246,9 @@
 </body>
 <script>
     function toBookIndex(){
-        var newPage = window.open();
+//        var newPage = window.open();
         // window.open('about:blank');
-        newPage.location.href = 'http://localhost:8080/#/bookIndex';
+        window.location.href = 'http://localhost:8080/#/bookIndex';
     }
 </script>
 </html>
