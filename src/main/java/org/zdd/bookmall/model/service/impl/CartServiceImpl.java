@@ -33,11 +33,13 @@ public class CartServiceImpl implements ICartService {
             cartItem.setBuyNum(buyNum);
             cartItem.setBookInfo(bookInfo);
             cartItem.setSubTotal(bookInfo.getPrice().doubleValue() * buyNum);
+            cartItem.setSubTotal((double) Math.round(cartItem.getSubTotal() * 100) / 100);
             cartItems.put(bookInfo.getBookId(), cartItem);
         }
         for (CartItem cartItem : cartItems.values()) {
             total += cartItem.getSubTotal();
         }
+        total = (double) Math.round(total * 100) / 100;
         cart.setTotal(total);
 
         return BSResultUtil.success(cart);
@@ -51,21 +53,21 @@ public class CartServiceImpl implements ICartService {
     }
 
     @Override
-    public BSResult deleteCartItem(int bookId, HttpServletRequest request) {
-
+    public Cart deleteCartItem(int bookId, HttpServletRequest request) {
         Cart cart = (Cart) request.getSession().getAttribute("cart");
         Map<Integer, CartItem> cartItems = cart.getCartItems();
         if (cartItems.containsKey(bookId)) {
             CartItem cartItem = cartItems.get(bookId);
             cart.setTotal(cart.getTotal() - cartItem.getSubTotal());
+            cart.setTotal((double) Math.round(cart.getTotal() * 100) / 100);
             cartItems.remove(bookId);
         }
         request.getSession().setAttribute("cart", cart);
-        return BSResultUtil.success();
+        return cart;
     }
 
     @Override
-    public BSResult updateBuyNum(int bookId, int newNum, HttpServletRequest request) {
+    public Cart updateBuyNum(int bookId, int newNum, HttpServletRequest request) {
 
         Cart cart = (Cart) request.getSession().getAttribute("cart");
         Map<Integer, CartItem> cartItems = cart.getCartItems();
@@ -77,13 +79,14 @@ public class CartServiceImpl implements ICartService {
             BookInfo bookInfo = cartItem.getBookInfo();
             cartItem.setSubTotal(
                     bookInfo.getPrice().doubleValue() * newNum);
-
+            cartItem.setSubTotal((double) Math.round(cartItem.getSubTotal() * 100) / 100);
             cartItem.setBuyNum(newNum);
             cart.setTotal(cart.getTotal() + cartItem.getSubTotal());
+            cart.setTotal((double) Math.round(cart.getTotal() * 100) / 100);
         }
 
         request.getSession().setAttribute("cart", cart);
-        return BSResultUtil.success();
+        return cart;
     }
 
     @Override

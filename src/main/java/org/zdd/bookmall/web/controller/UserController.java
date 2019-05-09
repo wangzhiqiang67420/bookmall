@@ -102,7 +102,7 @@ public class UserController {
                 map.put("status","1");
                 map.put("msg",url);
                 map.put("user",loginUser);
-
+                map.put("sessionId",request.getSession().getId());
                 //判断是否仅仅是普通用户
                 List<Role> roles = customMapper.findRolesByUserId(loginUser.getUserId());
                 if(roles.size() == 1 && roles.get(0).getCode().equals("customer")){

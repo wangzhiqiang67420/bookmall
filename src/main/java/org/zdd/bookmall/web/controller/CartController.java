@@ -10,10 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/cart")
-@CrossOrigin
+@CrossOrigin(allowCredentials="true")
 public class CartController {
 
     @Autowired
@@ -59,27 +60,28 @@ public class CartController {
     }
 
     @GetMapping("/clear")
+    @ResponseBody
     public String clearCart(HttpServletRequest request) {
         cartService.clearCart(request,"cart");
         return "cart";
     }
 
     @GetMapping("/deletion/{bookId}")
-    public String deleteCartItem(@PathVariable("bookId") int bookId,HttpServletRequest request){
-        cartService.deleteCartItem(bookId, request);
-        return "redirect:/cart/items";
+    @ResponseBody
+    public Cart deleteCartItem(@PathVariable("bookId") int bookId,HttpServletRequest request){
+        return cartService.deleteCartItem(bookId, request);
     }
 
     /**
      * 更新某个购物车项的购买数量
-     * @param bookId
-     * @param newNum
      * @param request
      * @return
      */
     @PostMapping("/buy/num/update")
     @ResponseBody
-    public BSResult updateBuyNum(int bookId, int newNum, HttpServletRequest request){
+    public Cart updateBuyNum(@RequestBody Map<String,String> map, HttpServletRequest request){
+        int bookId = Integer.parseInt(map.get("bookId").toString());
+        int newNum = Integer.parseInt(map.get("newNum").toString());
         return cartService.updateBuyNum(bookId, newNum, request);
     }
 
@@ -88,5 +90,12 @@ public class CartController {
     public BSResult checkACartItem(int bookId,HttpServletRequest request){
         Cart cart = (Cart)request.getSession().getAttribute("cart");
         return cartService.checkedOrNot(cart, bookId);
+    }
+
+    @GetMapping("/getCart")
+    @ResponseBody
+    public Cart getCart(HttpServletRequest request){
+        Cart cart = (Cart)request.getSession().getAttribute("cart");
+        return cart;
     }
 }

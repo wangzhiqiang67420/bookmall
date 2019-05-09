@@ -185,8 +185,6 @@
                         <li>国际标准书号ISBN：${bookInfo.isbn}</li>
                     </ul>
                     <div id="detail" class="section">
-
-
                         <div id="bookDetail" class="section">
                             <div class="title">
                                 <span class="title_span">书籍详情</span>
@@ -221,32 +219,6 @@
                                 <pre>${bookInfo.catalog}</pre>
                             </blockquote>
                         </div>
-                        <%--	<div id="authorIntroduction" class="section">
-                                <div class="title">
-                                    <span class="title_span">免费在线阅读</span>
-                                </div>
-                                <blockquote>
-                                    <pre>
-                                题梅
-宋·王柏
-万物正摇落，
-梅花独可人。
-空中三五点，
-天地便精神。
-末两句，极见精神。
-今日小寒。一年里倒数第二个节气。小寒三候：一候雁
-北乡，二候鹊始巢，三候雉始雊。传统的“二十四番花信风”，也从小寒节气开始数起，分别是：一候梅花，二候山茶，三候水仙。所以今天读这首梅花小诗。
-“二十四番花信风”，名单互有差异。现存最早完整的，见于明王逵《蠡海集· 气候类》：“小寒 ：一候梅花，二候山茶，三候水仙 ；大寒 ：一候瑞香，二候兰花，三候山矾；立春：一候迎春，二候樱桃，三候望春 ；雨水 ：一候菜花，二候杏花，三候李花 ；惊蛰 ：一候桃花，二候棣棠，三候蔷薇 ；春分 ：一候海棠，二候梨花，三候木兰 ；清明 ：一候桐花，二候麦花，三候柳花 ；谷雨 ：一候牡丹，二候酴醿，三候楝花。”
-画梅二首其二
-明·怀渭
-折得江南春，
-怅望洛阳客。
-悠悠岁年暮，
-浩浩风尘隔。
-远道勿相思，
-                            </pre>
-                                </blockquote>
-                            </div>--%>
                     </div>
                 </div>
                 <div id="book_comment_content" style="display: none;" class="nav_content">

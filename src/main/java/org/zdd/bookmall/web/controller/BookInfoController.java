@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/book")
@@ -65,7 +67,8 @@ public class BookInfoController {
      */
     @RequestMapping("/getInfo/{bookId}")
     @ResponseBody
-    public BookInfo getInfo(@PathVariable("bookId") Integer bookId, Model model) throws BSException {
+    public Map<String,Object> getInfo(@PathVariable("bookId") Integer bookId, Model model) throws BSException {
+        Map<String,Object> map =new HashMap<>();
         //查询书籍
         BookInfo bookInfo = bookInfoService.findById(bookId);
         //查询书籍推荐列表
@@ -75,10 +78,10 @@ public class BookInfoController {
         //增加访问量
         bookInfoService.addLookMount(bookInfo);
         Collections.shuffle(recommendBookList);
-        model.addAttribute("bookInfo", bookInfo);
-        model.addAttribute("bookDesc", bookDesc);
-        model.addAttribute("recommendBookList", recommendBookList);
-        return bookInfo;
+        map.put("bookInfo", bookInfo);
+        map.put("bookDesc", bookDesc);
+        map.put("recommendBookList", recommendBookList);
+        return map;
     }
 
 
