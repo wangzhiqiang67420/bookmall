@@ -3,6 +3,14 @@
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html>
 <html>
+<script>
+    function toBookIndex(){
+//        var newPage = window.open();
+        // window.open('about:blank');
+        window.location.href = 'http://localhost:8080/#/bookIndex';
+    }
+    toBookIndex();
+</script>
 <body>
 <div id="header">
     <div id="header_inner">

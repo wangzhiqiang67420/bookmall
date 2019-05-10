@@ -8,6 +8,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script>
+        function toBookIndex(){
+//        var newPage = window.open();
+            // window.open('about:blank');
+            window.location.href = 'http://localhost:8080/#/bookIndex';
+        }
+        toBookIndex();
+    </script>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${applicationScope.globalParameter.webName}</title>
@@ -19,15 +27,9 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bs.css"/>
 
+
 </head>
-<script>
-    function toBookIndex(){
-//        var newPage = window.open();
-        // window.open('about:blank');
-//        window.location.href = 'http://localhost:8080/#/bookIndex';
-    }
-</script>
-<body onload="toBookIndex()">
+<body>
 <jsp:include page="header.jsp"/>
 <div class="container" style="margin-top:10px ;">
     <div class="row" style="height: 850px;">
