@@ -248,7 +248,7 @@
     function toBookIndex(){
 //        var newPage = window.open();
         // window.open('about:blank');
-        window.location.href = 'http://localhost:8080/#/bookIndex';
+        window.parent.location.href = 'http://localhost:8080/#/bookIndex';
     }
 </script>
 </html>
