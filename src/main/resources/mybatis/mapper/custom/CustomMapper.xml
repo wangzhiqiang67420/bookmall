@@ -50,7 +50,7 @@
       <id column="order_detail_id" jdbcType="INTEGER" property="orderDetailId" />
       <result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
       <result column="order_id" jdbcType="VARCHAR" property="orderId" />
-      <result column="book_id" jdbcType="INTEGER" property="bookId" />
+      <result column="book_id" jdbcType="BIGINT" property="bookId" />
       <result column="store_id" jdbcType="INTEGER" property="storeId" />
       <result column="mount" jdbcType="INTEGER" property="mount" />
       <result column="unit_price" jdbcType="DECIMAL" property="unitPrice" />

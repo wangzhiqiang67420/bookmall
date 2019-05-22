@@ -12,10 +12,10 @@ public interface ICartService {
 
     BSResult clearCart(HttpServletRequest request,String sessionName);
 
-    Cart deleteCartItem(int bookId, HttpServletRequest request);
+    Cart deleteCartItem(Long bookId, HttpServletRequest request);
 
-    Cart updateBuyNum(int bookId, int newNum, HttpServletRequest request);
+    Cart updateBuyNum(Long bookId, int newNum, HttpServletRequest request);
 
-    BSResult checkedOrNot(Cart cart,int bookId);
+    BSResult checkedOrNot(Cart cart,Long bookId);
 
 }

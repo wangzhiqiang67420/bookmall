@@ -5,7 +5,7 @@
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="book_id" jdbcType="INTEGER" property="bookId" />
+    <id column="book_id" jdbcType="BIGINT" property="bookId" />
     <result column="book_category_id" jdbcType="INTEGER" property="bookCategoryId" />
     <result column="store_id" jdbcType="INTEGER" property="storeId" />
     <result column="name" jdbcType="VARCHAR" property="name" />

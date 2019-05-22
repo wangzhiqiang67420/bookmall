@@ -53,7 +53,7 @@ public class CartServiceImpl implements ICartService {
     }
 
     @Override
-    public Cart deleteCartItem(int bookId, HttpServletRequest request) {
+    public Cart deleteCartItem(Long bookId, HttpServletRequest request) {
         Cart cart = (Cart) request.getSession().getAttribute("cart");
         Map<Long, CartItem> cartItems = cart.getCartItems();
         if (cartItems.containsKey(bookId)) {
@@ -67,7 +67,7 @@ public class CartServiceImpl implements ICartService {
     }
 
     @Override
-    public Cart updateBuyNum(int bookId, int newNum, HttpServletRequest request) {
+    public Cart updateBuyNum(Long bookId, int newNum, HttpServletRequest request) {
 
         Cart cart = (Cart) request.getSession().getAttribute("cart");
         Map<Long, CartItem> cartItems = cart.getCartItems();
@@ -90,7 +90,7 @@ public class CartServiceImpl implements ICartService {
     }
 
     @Override
-    public BSResult checkedOrNot(Cart cart, int bookId) {
+    public BSResult checkedOrNot(Cart cart, Long bookId) {
         Map<Long, CartItem> cartItems = cart.getCartItems();
 
         if (cartItems.containsKey(bookId)) {

@@ -68,7 +68,7 @@ public class CartController {
 
     @GetMapping("/deletion/{bookId}")
     @ResponseBody
-    public Cart deleteCartItem(@PathVariable("bookId") int bookId,HttpServletRequest request){
+    public Cart deleteCartItem(@PathVariable("bookId") Long bookId,HttpServletRequest request){
         return cartService.deleteCartItem(bookId, request);
     }
 
@@ -80,14 +80,14 @@ public class CartController {
     @PostMapping("/buy/num/update")
     @ResponseBody
     public Cart updateBuyNum(@RequestBody Map<String,String> map, HttpServletRequest request){
-        int bookId = Integer.parseInt(map.get("bookId").toString());
+        Long bookId = Long.parseLong(map.get("bookId").toString());
         int newNum = Integer.parseInt(map.get("newNum").toString());
         return cartService.updateBuyNum(bookId, newNum, request);
     }
 
     @PostMapping("/checkOne")
     @ResponseBody
-    public BSResult checkACartItem(int bookId,HttpServletRequest request){
+    public BSResult checkACartItem(Long bookId,HttpServletRequest request){
         Cart cart = (Cart)request.getSession().getAttribute("cart");
         return cartService.checkedOrNot(cart, bookId);
     }
