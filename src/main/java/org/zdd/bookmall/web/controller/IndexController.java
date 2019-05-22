@@ -77,6 +77,18 @@ public class IndexController {
         return bookInfos;
     }
 
+    /**
+     * 第一次访问首页首页
+     *
+     * @return
+     */
+    @RequestMapping("/bookCategories")
+    @ResponseBody
+    public List<BookCategory> bookCategories() {
+        categoryList = cateService.getCategoryList();
+        return categoryList;
+    }
+
 
     /**
      * 点击首页导航栏分类后来到这个handler
