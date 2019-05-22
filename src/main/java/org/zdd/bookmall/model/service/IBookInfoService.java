@@ -13,21 +13,21 @@ public interface IBookInfoService {
 
     List<BookInfo> findBookListByCateId(int cateId, int currentPage, int pageSize);
 
-    BookInfo findById(Integer bookId) throws BSException;
+    BookInfo findById(Long bookId) throws BSException;
 
     PageInfo<BookInfo> findBookListByCondition(String keywords, int cateId, int page, int pageSize,int storeId);
 
-    BookInfo queryBookAvailable(int bookId);
+    BookInfo queryBookAvailable(Long bookId);
 
     BSResult saveBook(BookInfo bookInfo, String bookDescStr);
 
     BSResult updateBook(BookInfo bookInfo, String bookDesc);
 
-    BSResult changeShelfStatus(int bookId,int shelf);
+    BSResult changeShelfStatus(Long bookId,int shelf);
 
-    BookInfo adminFindById(int bookId) throws BSException;
+    BookInfo adminFindById(Long bookId) throws BSException;
 
-    BSResult deleteBook(int bookId);
+    BSResult deleteBook(Long bookId);
 
     int addLookMount(BookInfo bookInfo);
 

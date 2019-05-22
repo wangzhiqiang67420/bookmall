@@ -20,7 +20,7 @@ public class OrderDetail {
     private String orderId;
 
     @Column(name = "book_id")
-    private Integer bookId;
+    private Long bookId;
 
     @Column(name = "store_id")
     private Integer storeId;
@@ -113,14 +113,14 @@ public class OrderDetail {
     /**
      * @return book_id
      */
-    public Integer getBookId() {
+    public Long getBookId() {
         return bookId;
     }
 
     /**
      * @param bookId
      */
-    public void setBookId(Integer bookId) {
+    public void setBookId(Long bookId) {
         this.bookId = bookId;
     }
 

@@ -82,7 +82,7 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     @Transactional
     public BSResult createOrder(Cart cart, User user, String express, int payMethod) {
-        Map<Integer, CartItem> cartItems = cart.getCartItems();
+        Map<Long, CartItem> cartItems = cart.getCartItems();
 
         if(cartItems.size() > 0){
             Orders order = new Orders();
@@ -115,7 +115,7 @@ public class OrderServiceImpl implements IOrderService {
             orderShippingMapper.insert(orderShipping);
 
             List<OrderDetail> orderDetails = new ArrayList<>();
-            for (Map.Entry<Integer, CartItem> cartItemEntry : cartItems.entrySet()) {
+            for (Map.Entry<Long, CartItem> cartItemEntry : cartItems.entrySet()) {
 
                 CartItem cartItem = cartItemEntry.getValue();
                 if (cartItem.getBuyNum() > 0 && cartItem.isChecked()) {

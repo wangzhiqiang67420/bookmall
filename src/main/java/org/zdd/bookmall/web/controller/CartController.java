@@ -38,7 +38,7 @@ public class CartController {
      */
     @RequestMapping("/addition")
     @ResponseBody
-    public String addToCart(@RequestParam(value = "bookId",defaultValue = "0") int bookId,
+    public String addToCart(@RequestParam(value = "bookId",defaultValue = "0") Long bookId,
                             @RequestParam(required = false,defaultValue = "0") int buyNum,
                             HttpServletRequest request) {
 

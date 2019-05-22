@@ -8,15 +8,15 @@ import java.util.Map;
  */
 public class Cart {
 
-    private Map<Integer,CartItem> cartItems = new HashMap<>();
+    private Map<Long,CartItem> cartItems = new HashMap<>();
 
     private double total;
 
-    public Map<Integer, CartItem> getCartItems() {
+    public Map<Long, CartItem> getCartItems() {
         return cartItems;
     }
 
-    public void setCartItems(Map<Integer, CartItem> cartItems) {
+    public void setCartItems(Map<Long, CartItem> cartItems) {
         this.cartItems = cartItems;
     }
 

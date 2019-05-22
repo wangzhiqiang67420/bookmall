@@ -40,7 +40,7 @@ public class OrderController {
      * @return
      */
     @GetMapping("/info")
-    public String orderInfo(@RequestParam(required = false, defaultValue = "0") int bookId,
+    public String orderInfo(@RequestParam(required = false, defaultValue = "0") Long bookId,
                             @RequestParam(required = false, defaultValue = "0") int buyNum,
                             HttpServletRequest request) throws BSException {
 

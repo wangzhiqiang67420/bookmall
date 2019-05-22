@@ -63,7 +63,7 @@ public class BookInfoServiceImpl implements IBookInfoService {
 
     @Override
     @Cacheable(cacheNames="book",key = "'bookInfo_'+#bookId")
-    public BookInfo findById(Integer bookId) throws BSException {
+    public BookInfo findById(Long bookId) throws BSException {
         Example bookInfoExample = new Example(BookInfo.class);
         Example.Criteria criteriaOfIsShelf = bookInfoExample.createCriteria();
         criteriaOfIsShelf.andEqualTo("isShelf", 1);
@@ -133,7 +133,7 @@ public class BookInfoServiceImpl implements IBookInfoService {
     }
 
     @Override
-    public BookInfo queryBookAvailable(int bookId) {
+    public BookInfo queryBookAvailable(Long bookId) {
 
         Example bookInfoExample = new Example(BookInfo.class);
         Example.Criteria criteria = bookInfoExample.createCriteria();
@@ -206,7 +206,7 @@ public class BookInfoServiceImpl implements IBookInfoService {
     @Override
     @Transactional
     @CacheEvict(cacheNames="book",allEntries = true)
-    public BSResult changeShelfStatus(int bookId,int shelf) {
+    public BSResult changeShelfStatus(Long bookId,int shelf) {
 
         BookInfo bookInfo = new BookInfo();
         bookInfo.setBookId(bookId);
@@ -216,7 +216,7 @@ public class BookInfoServiceImpl implements IBookInfoService {
     }
 
     @Override
-    public BookInfo adminFindById(int bookId) throws BSException {
+    public BookInfo adminFindById(Long bookId) throws BSException {
         Example bookInfoExample = new Example(BookInfo.class);
         Example.Criteria criteriaOfIsShelf = bookInfoExample.createCriteria();
         criteriaOfIsShelf.andEqualTo("bookId", bookId);
@@ -229,7 +229,7 @@ public class BookInfoServiceImpl implements IBookInfoService {
 
     @Override
     @Transactional
-    public BSResult deleteBook(int bookId) {
+    public BSResult deleteBook(Long bookId) {
         bookInfoMapper.deleteByPrimaryKey(bookId);
         bookDescMapper.deleteByPrimaryKey(bookId);
         return BSResultUtil.success();

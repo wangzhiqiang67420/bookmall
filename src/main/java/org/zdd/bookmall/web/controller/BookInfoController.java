@@ -42,7 +42,7 @@ public class BookInfoController {
      * @return
      */
     @RequestMapping("/info/{bookId}")
-    public String bookInfo(@PathVariable("bookId") Integer bookId, Model model) throws BSException {
+    public String bookInfo(@PathVariable("bookId") Long bookId, Model model) throws BSException {
         //查询书籍
         BookInfo bookInfo = bookInfoService.findById(bookId);
         //查询书籍推荐列表
@@ -67,7 +67,7 @@ public class BookInfoController {
      */
     @RequestMapping("/getInfo/{bookId}")
     @ResponseBody
-    public Map<String,Object> getInfo(@PathVariable("bookId") Integer bookId, Model model) throws BSException {
+    public Map<String,Object> getInfo(@PathVariable("bookId") Long bookId, Model model) throws BSException {
         Map<String,Object> map =new HashMap<>();
         //查询书籍
         BookInfo bookInfo = bookInfoService.findById(bookId);

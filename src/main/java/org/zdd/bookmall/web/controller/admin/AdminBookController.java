@@ -89,7 +89,7 @@ public class AdminBookController {
      */
     @RequestMapping("/echo")
     @RequiresPermissions("book-edit")
-    public String echo(int bookId,Model model) throws BSException {
+    public String echo(Long bookId,Model model) throws BSException {
 
         BookInfo bookInfo = bookInfoService.adminFindById(bookId);
 
@@ -114,7 +114,7 @@ public class AdminBookController {
 
     @RequestMapping("/deletion/{bookId}")
     @RequiresPermissions("book-delete")
-    public String deletion(@PathVariable("bookId") int bookId, String keywords, RedirectAttributes ra){
+    public String deletion(@PathVariable("bookId") Long bookId, String keywords, RedirectAttributes ra){
         bookInfoService.deleteBook(bookId);
         ra.addAttribute("keywords", keywords);
         return "redirect:/admin/book/list";
@@ -122,7 +122,7 @@ public class AdminBookController {
 
     @RequestMapping("/shelf")
     @RequiresPermissions("book-shelf")
-    public String bookOffShelf(int bookId, int isShelf, String keywords,RedirectAttributes ra){
+    public String bookOffShelf(Long bookId, int isShelf, String keywords,RedirectAttributes ra){
 
         bookInfoService.changeShelfStatus(bookId,isShelf);
         ra.addAttribute("keywords", keywords);

@@ -21,7 +21,7 @@ public class CartServiceImpl implements ICartService {
         if (cart == null) {
             cart = new Cart();
         }
-        Map<Integer, CartItem> cartItems = cart.getCartItems();
+        Map<Long, CartItem> cartItems = cart.getCartItems();
         double total = 0;
         if (cartItems.containsKey(bookInfo.getBookId())) {
             CartItem cartItem = cartItems.get(bookInfo.getBookId());
@@ -55,7 +55,7 @@ public class CartServiceImpl implements ICartService {
     @Override
     public Cart deleteCartItem(int bookId, HttpServletRequest request) {
         Cart cart = (Cart) request.getSession().getAttribute("cart");
-        Map<Integer, CartItem> cartItems = cart.getCartItems();
+        Map<Long, CartItem> cartItems = cart.getCartItems();
         if (cartItems.containsKey(bookId)) {
             CartItem cartItem = cartItems.get(bookId);
             cart.setTotal(cart.getTotal() - cartItem.getSubTotal());
@@ -70,7 +70,7 @@ public class CartServiceImpl implements ICartService {
     public Cart updateBuyNum(int bookId, int newNum, HttpServletRequest request) {
 
         Cart cart = (Cart) request.getSession().getAttribute("cart");
-        Map<Integer, CartItem> cartItems = cart.getCartItems();
+        Map<Long, CartItem> cartItems = cart.getCartItems();
         if (cartItems.containsKey(bookId)) {
             //取出订单项所对应的书籍，根据新的购买数量重新计算小计
             CartItem cartItem = cartItems.get(bookId);
@@ -91,7 +91,7 @@ public class CartServiceImpl implements ICartService {
 
     @Override
     public BSResult checkedOrNot(Cart cart, int bookId) {
-        Map<Integer, CartItem> cartItems = cart.getCartItems();
+        Map<Long, CartItem> cartItems = cart.getCartItems();
 
         if (cartItems.containsKey(bookId)) {
             CartItem cartItem = cartItems.get(bookId);

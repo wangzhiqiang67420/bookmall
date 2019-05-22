@@ -9,7 +9,7 @@ public class BookInfo {
     @Id
     @Column(name = "book_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer bookId;
+    private Long bookId;
 
     @Column(name = "book_category_id")
     private Integer bookCategoryId;
@@ -145,14 +145,14 @@ public class BookInfo {
     /**
      * @return book_id
      */
-    public Integer getBookId() {
+    public Long getBookId() {
         return bookId;
     }
 
     /**
      * @param bookId
      */
-    public void setBookId(Integer bookId) {
+    public void setBookId(Long bookId) {
         this.bookId = bookId;
     }
 
