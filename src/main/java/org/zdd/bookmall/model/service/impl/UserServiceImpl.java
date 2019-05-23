@@ -1,5 +1,6 @@
 package org.zdd.bookmall.model.service.impl;
 
+import org.apache.ibatis.session.RowBounds;
 import org.zdd.bookmall.config.UserResourceProperties;
 import org.zdd.bookmall.model.dao.UserMapper;
 import org.zdd.bookmall.model.dao.custom.CustomMapper;
@@ -207,7 +208,11 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public List<User> findAllUsers() {
-        return userMapper.selectAll();
+        RowBounds bounds  = new RowBounds(1,20);
+        Example userExample = new Example(User.class);
+        userExample.setOrderByClause("user_id DESC");
+        return userMapper.selectByExampleAndRowBounds(userExample,bounds);
+
     }
 
     @Override

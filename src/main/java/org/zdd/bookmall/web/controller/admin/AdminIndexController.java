@@ -43,7 +43,6 @@ public class AdminIndexController {
                              HttpServletRequest request, Model model) {
         //未认证的用户
         Subject userSubject = SecurityUtils.getSubject();
-        if (!userSubject.isAuthenticated()) {
             UsernamePasswordToken token = new UsernamePasswordToken(username, password);
 
             token.setRememberMe(false);//禁止记住我功能
@@ -80,9 +79,6 @@ public class AdminIndexController {
                 model.addAttribute("loginMsg", "登录失败！");
                 return "login";
             }
-        } else {
-            //用户已经登录
-            return "redirect:/admin/index";
-        }
+
     }
 }
