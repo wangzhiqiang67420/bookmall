@@ -78,7 +78,7 @@ public class BookInfoServiceImpl implements IBookInfoService {
     }
 
     public int addLookMount(BookInfo bookInfo){
-        bookInfo.setLookMount(bookInfo.getLookMount() + 1);
+        bookInfo.setLookMount(bookInfo.getLookMount() == null? 0:bookInfo.getLookMount() + 1);
         return bookInfoMapper.updateByPrimaryKeySelective(bookInfo);
     }
 
