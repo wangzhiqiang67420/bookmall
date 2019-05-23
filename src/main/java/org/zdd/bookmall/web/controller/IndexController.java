@@ -1,7 +1,9 @@
 package org.zdd.bookmall.web.controller;
 
 
+import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.zdd.bookmall.crawl.URLEntity;
 import org.zdd.bookmall.crawl.WriteToMysql;
@@ -99,8 +101,8 @@ public class IndexController {
      */
     @RequestMapping("/index/category/{cateId}")
     @ResponseBody
-    public List<BookInfo> bookListByCategoryId(@PathVariable("cateId") int cateId, Model model) {
-        List<BookInfo> bookInfos = bookInfoService.findBookListByCateId(cateId, new Random().nextInt(3), 18);
+    public PageInfo<BookInfo> bookListByCategoryId(@PathVariable("cateId") int cateId, Model model,@RequestParam(value = "page",defaultValue = "1",required = false) int page) {
+        PageInfo<BookInfo> bookInfos = bookInfoService.findBookListByCondition(null,cateId, page, 10,0);
         return bookInfos;
     }
 

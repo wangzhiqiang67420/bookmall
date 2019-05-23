@@ -1,5 +1,7 @@
 package org.zdd.bookmall.model.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.session.RowBounds;
 import org.zdd.bookmall.config.UserResourceProperties;
 import org.zdd.bookmall.model.dao.UserMapper;
@@ -8,6 +10,7 @@ import org.zdd.bookmall.common.pojo.BSResult;
 import org.zdd.bookmall.common.utils.BSResultUtil;
 import org.zdd.bookmall.model.dao.StoreMapper;
 import org.zdd.bookmall.model.dao.UserRoleMapper;
+import org.zdd.bookmall.model.entity.BookInfo;
 import org.zdd.bookmall.model.entity.Store;
 import org.zdd.bookmall.model.entity.User;
 import org.zdd.bookmall.model.entity.UserRole;
@@ -213,6 +216,15 @@ public class UserServiceImpl implements IUserService {
         userExample.setOrderByClause("user_id DESC");
         return userMapper.selectByExampleAndRowBounds(userExample,bounds);
 
+    }
+
+    @Override
+    public PageInfo<User> findBookListByCondition(int page, int pageSize) {
+        PageHelper.startPage(page, pageSize);
+        Example userExample = new Example(User.class);
+        List<User> users = userMapper.selectByExample(userExample);
+        PageInfo<User> pageInfo = new PageInfo<>(users);
+        return pageInfo;
     }
 
     @Override

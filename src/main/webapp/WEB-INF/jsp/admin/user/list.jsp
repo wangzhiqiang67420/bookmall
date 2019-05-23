@@ -52,7 +52,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${users}" var="user" varStatus="vs">
+        <c:forEach items="${users.list}" var="user" varStatus="vs">
             <tr>
                 <td>${vs.count}</td>
                 <td>${user.username}</td>
@@ -75,6 +75,41 @@
         </c:forEach>
         </tbody>
     </table>
+    <ul class="pagination pagination-lg">
+
+        <c:if test="${users.isFirstPage}">
+            <li class="disabled"><a href="javascript:void(0);">&laquo;</a></li>
+        </c:if>
+
+        <c:if test="${!users.isFirstPage}">
+            <li>
+                <a href="admin/user/list?page=${users.prePage}">&laquo;</a>
+            </li>
+        </c:if>
+        <c:forEach
+                begin="${users.pageNum < 6 ? 1 :users.pageNum-5}"
+                end="${users.pages<6?users.pages:(users.pageNum < 6 ? 6 :users.pageNum) }"
+                var="current">
+            <li
+                    class="${(current == users.pageNum) ? 'active':''}">
+                <a href="admin/user/list?page=${current}">
+                        ${current}
+                </a>
+            </li>
+        </c:forEach>
+        <c:if test="${users.isLastPage}">
+            <li class="disabled"><a href="javascript:void(0);">&raquo;</a></li>
+        </c:if>
+        <c:if test="${!users.isLastPage}">
+            <li><a href="admin/user/list?page=${users.nextPage}">&raquo;</a>
+            </li>
+        </c:if>
+        <li>
+            <a href="admin/user/list?page=${users.pages}">末页</a>
+        </li>
+        <li><a href="javascript:void(0);">共${users.pages}页</a></li>
+        <li><a href="javascript:void(0);">共${users.total}用户</a></li>
+    </ul>
 
 </div>
 

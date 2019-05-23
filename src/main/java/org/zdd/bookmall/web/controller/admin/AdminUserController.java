@@ -1,6 +1,9 @@
 package org.zdd.bookmall.web.controller.admin;
 
+import com.github.pagehelper.PageInfo;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.zdd.bookmall.model.dao.custom.CustomMapper;
+import org.zdd.bookmall.model.entity.BookInfo;
 import org.zdd.bookmall.model.entity.Role;
 import org.zdd.bookmall.common.pojo.BSResult;
 import org.zdd.bookmall.model.entity.User;
@@ -72,8 +75,8 @@ public class AdminUserController {
 
     @RequestMapping("/list")
     @RequiresPermissions("user-list")
-    public String userList(Model model){
-        List<User> users = userService.findAllUsers();
+    public String userList(Model model, @RequestParam(value = "page",defaultValue = "1",required = false) int page){
+        PageInfo<User> users = userService.findBookListByCondition(page,10);
         model.addAttribute("users", users);
         return "admin/user/list";
     }

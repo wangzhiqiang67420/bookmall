@@ -79,10 +79,6 @@
             </ul>
         </div>
         <ul class="pagination pagination-lg">
-
-            <%--
-                上一页
-            --%>
             <c:if test="${bookPageInfo.isFirstPage}">
                 <li class="disabled"><a href="javascript:void(0);">前一页</a></li>
             </c:if>
@@ -92,18 +88,6 @@
                     <a href="book/list?keywords=${keywords}&cateId=${cateId}&page=${bookPageInfo.prePage}">前一页</a>
                 </li>
             </c:if>
-
-            <%--<c:forEach
-                    begin="${bookPageInfo.pageNum}"
-                    end="${bookPageInfo.pageNum+5 < bookPageInfo.pages ? bookPageInfo.pageNum+5 : bookPageInfo.pages }"
-                    var="current">
-                <li
-                        class="${(current == bookPageInfo.pageNum) ? 'active':''}">
-                    <a href="book/list?keyword=${keywords}&cateId=${cateId}&page=${current}">
-                        ${current}
-                    </a>
-                </li>
-            </c:forEach>--%>
             <c:forEach
                     begin="${bookPageInfo.pageNum < 6 ? 1 :bookPageInfo.pageNum-5}"
                     end="${bookPageInfo.pages<6?bookPageInfo.pages:(bookPageInfo.pageNum < 6 ? 6 :bookPageInfo.pageNum) }"
@@ -115,18 +99,13 @@
                     </a>
                 </li>
             </c:forEach>
-            <%--
-                下一页
-            --%>
             <c:if test="${bookPageInfo.isLastPage}">
                 <li class="disabled"><a href="javascript:void(0);">下一页</a></li>
             </c:if>
-
             <c:if test="${!bookPageInfo.isLastPage}">
                 <li><a href="book/list?keywords=${keywords}&cateId=${cateId}&page=${bookPageInfo.nextPage}">下一页</a>
                 </li>
             </c:if>
-
             <li class="disabled"><a href="javascript:void(0);">共${bookPageInfo.pages}页</a></li>
         </ul>
     </div>
