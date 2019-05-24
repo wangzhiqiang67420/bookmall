@@ -92,6 +92,14 @@ public class CartController {
         return cartService.checkedOrNot(cart, bookId);
     }
 
+    @PostMapping("/checkBook")
+    @ResponseBody
+    public BSResult checkBook(@RequestBody Map<String,String> map,HttpServletRequest request){
+        Long bookId = Long.parseLong(map.get("bookId").toString());
+        Cart cart = (Cart)request.getSession().getAttribute("cart");
+        return cartService.checkedOrNot(cart, bookId);
+    }
+
     @GetMapping("/getCart")
     @ResponseBody
     public Cart getCart(HttpServletRequest request){

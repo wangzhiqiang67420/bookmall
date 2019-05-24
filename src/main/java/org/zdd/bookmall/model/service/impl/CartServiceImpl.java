@@ -92,7 +92,6 @@ public class CartServiceImpl implements ICartService {
     @Override
     public BSResult checkedOrNot(Cart cart, Long bookId) {
         Map<Long, CartItem> cartItems = cart.getCartItems();
-
         if (cartItems.containsKey(bookId)) {
             CartItem cartItem = cartItems.get(bookId);
             if (cartItem.isChecked()) {
@@ -105,9 +104,10 @@ public class CartServiceImpl implements ICartService {
                 cartItem.setChecked(true);
                 cartItem.setSubTotal(cartItem.getBuyNum() * cartItem.getBookInfo().getPrice().doubleValue());
                 cart.setTotal(cart.getTotal() + cartItem.getSubTotal());
-
+                cart.setTotal((double) Math.round(cart.getTotal() * 100) / 100);
             }
-            return BSResultUtil.success();
+            cart.setTotal((double) Math.round(cart.getTotal() * 100) / 100);
+            return BSResultUtil.build(200,"OK",cart);
         } else
             return BSResultUtil.build(400, "购物车没有这本书籍!");
     }
