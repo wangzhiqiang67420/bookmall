@@ -101,8 +101,10 @@ public class IndexController {
      */
     @RequestMapping("/index/category/{cateId}")
     @ResponseBody
-    public PageInfo<BookInfo> bookListByCategoryId(@PathVariable("cateId") int cateId, Model model,@RequestParam(value = "page",defaultValue = "1",required = false) int page) {
-        PageInfo<BookInfo> bookInfos = bookInfoService.findBookListByCondition(null,cateId, page, 10,0);
+    public PageInfo<BookInfo> bookListByCategoryId(@PathVariable("cateId") int cateId, Model model,
+                                                   @RequestParam(value = "page",defaultValue = "1",required = false) int page,
+                                                   @RequestParam(defaultValue = "", required = false) String keywords) {
+        PageInfo<BookInfo> bookInfos = bookInfoService.findBookListByCondition(keywords,cateId, page, 10,0);
         return bookInfos;
     }
 
