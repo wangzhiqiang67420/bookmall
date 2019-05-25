@@ -13,10 +13,13 @@
     <base href="<%=basePath%>">
     <link rel="stylesheet" href="css/bs.css"/>
 </head>
-<frameset cols="13%,*,12%" border frameborder="no">
+<frameset rows ="4%,96%">
+    <frame name="topFrame" src="admin/admintop" />
+   <frameset cols="13%,*,12%" border frameborder="no">
     <frame name="leftFrame" src="admin/left"/>
     <frame name="centerFrame" src="admin/center"/>
     <frame name="rightFrame" src="admin/right" scrolling="no"/>
+</frameset>
 </frameset>
 
 <noframes>
