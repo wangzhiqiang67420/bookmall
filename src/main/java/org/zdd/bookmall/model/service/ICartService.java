@@ -18,4 +18,6 @@ public interface ICartService {
 
     BSResult checkedOrNot(Cart cart,Long bookId);
 
+    BSResult orderCart(Cart cart,Long[] bookIds);
+
 }

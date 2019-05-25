@@ -9,6 +9,7 @@ import org.zdd.bookmall.model.entity.BookInfo;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -110,6 +111,22 @@ public class CartServiceImpl implements ICartService {
             return BSResultUtil.build(200,"OK",cart);
         } else
             return BSResultUtil.build(400, "购物车没有这本书籍!");
+    }
+
+    @Override
+    public BSResult orderCart(Cart cart,Long[] bookIds) {
+        Cart orderCart = new Cart();
+        Map<Long, CartItem> cartItems = cart.getCartItems();
+        Map<Long, CartItem> cartItems2 = new HashMap<>();
+        for(Long bookId : bookIds){
+            if (cartItems.containsKey(bookId)) {
+                cartItems2.put(bookId,cartItems.get(bookId));
+            }
+        }
+        orderCart.setCartItems(cartItems2);
+        orderCart.setTotal(cart.getTotal());
+        return BSResultUtil.build(200,"OK",orderCart);
+
     }
 
 }

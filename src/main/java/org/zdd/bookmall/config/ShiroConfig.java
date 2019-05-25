@@ -70,6 +70,10 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/cart/deletion/**", "anon");
         filterChainDefinitionMap.put("/cart/clear", "anon");
         filterChainDefinitionMap.put("/cart/checkBook", "anon");
+        filterChainDefinitionMap.put("/cart/orderCart", "anon");
+        filterChainDefinitionMap.put("/order/payOrder", "anon");
+        filterChainDefinitionMap.put("/order/list", "anon");
+        filterChainDefinitionMap.put("/order/deleteOrder", "anon");
 
         filterChainDefinitionMap.put("/", "anon");
 

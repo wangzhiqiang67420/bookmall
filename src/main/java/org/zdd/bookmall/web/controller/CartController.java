@@ -106,4 +106,12 @@ public class CartController {
         Cart cart = (Cart)request.getSession().getAttribute("cart");
         return cart;
     }
+
+    @PostMapping("/orderCart")
+    @ResponseBody
+    public BSResult orderCart(@RequestBody Map<String,Long[]> map,HttpServletRequest request){
+        Cart cart = (Cart)request.getSession().getAttribute("cart");
+        Long[] bookIds = map.get("bookIds");
+        return cartService.orderCart(cart, bookIds);
+    }
 }

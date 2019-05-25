@@ -1,5 +1,6 @@
 package org.zdd.bookmall.model.service.impl;
 
+import org.zdd.bookmall.model.dao.*;
 import org.zdd.bookmall.model.dao.custom.CustomMapper;
 import org.zdd.bookmall.model.entity.BookInfo;
 import org.zdd.bookmall.model.entity.OrderDetail;
@@ -14,10 +15,6 @@ import org.zdd.bookmall.pay.PayContext;
 import org.zdd.bookmall.common.pojo.BSResult;
 import org.zdd.bookmall.common.utils.BSResultUtil;
 import org.zdd.bookmall.common.utils.IDUtils;
-import org.zdd.bookmall.model.dao.BookInfoMapper;
-import org.zdd.bookmall.model.dao.OrderDetailMapper;
-import org.zdd.bookmall.model.dao.OrdersMapper;
-import org.zdd.bookmall.model.dao.OrderShippingMapper;
 import org.zdd.bookmall.model.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,6 +45,10 @@ public class OrderServiceImpl implements IOrderService {
 
     @Autowired
     private BookInfoMapper bookInfoMapper;
+
+    @Autowired
+    private UserMapper userMapper;
+
 
     //未完成状态，比如未付款等
     private final int NOT_COMPLETED = 0;
@@ -85,6 +86,7 @@ public class OrderServiceImpl implements IOrderService {
         Map<Long, CartItem> cartItems = cart.getCartItems();
 
         if(cartItems.size() > 0){
+
             Orders order = new Orders();
             String orderId = IDUtils.genOrderId();
             order.setOrderId(orderId);
@@ -96,7 +98,7 @@ public class OrderServiceImpl implements IOrderService {
             order.setOrderMount(cartItems.size());
             order.setPayment(String.format("%.2f", cart.getTotal()));
             order.setPaymentType(payMethod);
-            order.setStatus(NOT_COMPLETED);
+            order.setStatus(COMPLETED);
             order.setBuyerRate(NOT_COMPLETED);
             order.setPostFee("0.00");//邮费
             orderMapper.insert(order);
@@ -112,6 +114,9 @@ public class OrderServiceImpl implements IOrderService {
             orderShipping.setReceiverState("广东");
             orderShipping.setReceiverCity("广州");
             orderShipping.setReceiverDistrict("海珠区");
+            User u = userMapper.selectByPrimaryKey(user.getUserId());
+            orderShipping.setReceiverAddress(u.getDetailAddress());
+
             orderShippingMapper.insert(orderShipping);
 
             List<OrderDetail> orderDetails = new ArrayList<>();

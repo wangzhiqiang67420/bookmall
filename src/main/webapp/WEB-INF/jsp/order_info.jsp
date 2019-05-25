@@ -64,7 +64,7 @@
             <div class="form-group">
                 <label for="confirmPassword" class="col-sm-1 control-label">联系方式</label>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control" id="confirmPassword" name="phone"
+                    <input type="text" class=lo"form-control" id="confirmPassword" name="phone"
                            placeholder="请输入联系方式" value="${sessionScope.loginUser.phone}">
                 </div>
             </div>

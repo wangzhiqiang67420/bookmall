@@ -27,12 +27,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/user")
@@ -67,7 +66,7 @@ public class UserController {
     @ResponseBody
     public Map loginnew(@RequestParam(value = "username", required = false) String username,
                         @RequestParam(value = "password", required = false) String password,
-                        HttpServletRequest request, Model model) {
+                        HttpServletRequest request, HttpServletResponse response, Model model) {
         Map<String,Object> map = new HashMap<>();
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
             map.put("status","0");
@@ -108,6 +107,13 @@ public class UserController {
                 if(roles.size() == 1 && roles.get(0).getCode().equals("customer")){
                     loginUser.setIdentity("ordinary");
                 }
+
+                Cookie uuid = new Cookie("uuid", "uuid=" + UUID.randomUUID());
+                Cookie userId = new Cookie("userId", "userId=" + loginUser.getUserId());
+                Cookie st = new Cookie("st", "st=" + new Date().getTime());
+                response.addCookie(uuid);
+                response.addCookie(userId);
+                response.addCookie(st);
                 return map;
             } catch (UnknownAccountException | IncorrectCredentialsException uae) {
                 map.put("status","0");
