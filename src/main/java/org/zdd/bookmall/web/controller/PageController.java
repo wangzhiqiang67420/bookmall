@@ -53,6 +53,10 @@ public class PageController {
     public String adminLeft(){
         return "admin/left";
     }
+    @RequestMapping("/admin/admintop")
+    public String adminTop(){
+        return "admin/admintop";
+    }
 
     //书籍访问量饼状图页面
     @RequestMapping("/admin/report/views")
