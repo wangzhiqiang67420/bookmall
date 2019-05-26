@@ -310,18 +310,17 @@ public class UserController {
 
     @RequestMapping("/update")
     @ResponseBody
-    public BSResult updateUser(User user, HttpSession session){
-        User loginUser = (User) session.getAttribute("loginUser");
+    public BSResult updateUser(@RequestBody  User user){
+        User loginUser = new User();
         loginUser.setNickname(user.getNickname());
-        loginUser.setLocation(user.getLocation());
+        loginUser.setEmail(user.getEmail());
         loginUser.setDetailAddress(user.getDetailAddress());
         loginUser.setGender(user.getGender());
         loginUser.setUpdated(new Date());
         loginUser.setPhone(user.getPhone());
         loginUser.setIdentity(user.getIdentity());
-        loginUser.setPhone(user.getPhone());
+        loginUser.setUserId(user.getUserId());
         BSResult bsResult = userService.updateUser(loginUser);
-        session.setAttribute("loginUser", loginUser);
         return bsResult;
     }
 
