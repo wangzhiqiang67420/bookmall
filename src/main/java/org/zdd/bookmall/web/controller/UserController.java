@@ -114,6 +114,9 @@ public class UserController {
                 response.addCookie(uuid);
                 response.addCookie(userId);
                 response.addCookie(st);
+                map.put("uuid", UUID.randomUUID());
+                map.put("userId",loginUser.getUserId());
+                map.put("st",new Date().getTime());
                 return map;
             } catch (UnknownAccountException | IncorrectCredentialsException uae) {
                 map.put("status","0");
